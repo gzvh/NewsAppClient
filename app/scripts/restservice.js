@@ -6,6 +6,9 @@ angular.module('RESTService', [])
   .controller('NewsController', function(NewsModel) {
 
   var newsdashboard = this;
+  var comm = this;
+  var data = new Date().toLocaleDateString();
+
   function getNews() {
     path = 'getNews/';
     NewsModel.all().then(function(result) {
@@ -18,7 +21,7 @@ angular.module('RESTService', [])
   getNews();
 
   function createNews(news){
-    NewsModel.create(news).then(function (result) {
+    NewsModel.create(angular.extend({}, {data: data}, news)).then(function (result) {
       initCreateForm();
     });
   }
@@ -27,7 +30,7 @@ angular.module('RESTService', [])
     comm.newComm = {title: '', text: '', author: ''};
   }
 
-  newsdashboard.createNews = createNews();
+  newsdashboard.createNews = createNews;
 })
   .controller('NewsDisplayController', function ($scope, $routeParams, NewsModel) {
 
@@ -47,7 +50,8 @@ angular.module('RESTService', [])
     path = 'getCommentsByNewsId/'+newsId;
 
     var comm = this;
-    var data = new Date().toLocaleDateString();
+    var data = new Date().toLocaleString();
+
     $scope.createComm = function(comment){
       console.log("Tworze komentarz");
       NewsModel.createComment(angular.extend({}, {data: data, newsId: newsId}, comment)).then(function (result) {
@@ -65,7 +69,7 @@ angular.module('RESTService', [])
     });
   })
 
-  .constant('ENDPOINT_URI', 'http://localhost:8080/api/news')
+  .constant('ENDPOINT_URI', 'http://localhost:8080/api/news/')
   .service('NewsModel', function ($http, ENDPOINT_URI) {
 
     var service = this;
