@@ -30,6 +30,11 @@ angular
         controller: 'NewsDisplayController',
         controllerAs: 'displaydash'
       })
+      .when('/add', {
+        templateUrl: 'views/add.html',
+        controller: 'NewsController',
+        controllerAs: 'newsdashboard'
+      })
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
