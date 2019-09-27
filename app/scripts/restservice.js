@@ -17,20 +17,29 @@ angular.module('RESTService', [])
   newsdashboard.data = [];
   getNews();
 })
-  .controller('NewsDisplayController', function ($routeParams, NewsModel) {
+  .controller('NewsDisplayController', function ($scope, $routeParams, NewsModel) {
 
-    var displaydash = this;
+    //var displaydash = this;
     var newsId = $routeParams.id;
 
     function getNewsById() {
       path = 'getNewsById'+newsId;
       NewsModel.getNewsById().then(function (result) {
-        displaydash.news = result.data;
-        console.log(displaydash.news);
+        //displaydash.news = result.data;
+        $scope.news = result.data;
+        console.log($scope.news);
       });
     }
+  })
+  .controller('CommentController', function ($scope, $routeParams, NewsModel) {
 
-    getNewsById();
+    var newsId = $routeParams.id;
+    path = 'getCommentsByNewsId/'+newsId;
+
+    NewsModel.getCommentById().then(function (result) {
+      $scope.comments = result.data;
+      console.log($scope.comments);
+    });
   })
 
   .constant('ENDPOINT_URI', 'http://localhost:8080/api/news')
@@ -46,7 +55,7 @@ angular.module('RESTService', [])
       return $http.get(getUrl());
     };
 
-    service.getNewsById() = function(){
+    service.getNewsById = function(){
       return $http.get(getUrl());
     };
 
