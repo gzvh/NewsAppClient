@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'RESTService'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -23,6 +24,11 @@ angular
         templateUrl: 'views/main.html',
         controller: 'NewsController',
         controllerAs: 'newsdashboard'
+      })
+      .when('/displaynews/:id', {
+        templateUrl: 'views/display.html',
+        controller: 'NewsDisplayController',
+        controllerAs: 'displaydash'
       })
       .when('/about', {
         templateUrl: 'views/about.html',
